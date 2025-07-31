@@ -24,13 +24,13 @@ public class ModelController {
 		service = serv;
 	}
 	
-	@GetMapping("/mfg_id")
+	@GetMapping("/manufacturer/{mfg_id}")
 	public ResponseEntity<List<Model>> getModelByMfgId(@PathVariable("mfg_id") int id){
 		List<Model> model = service.findModelByManufacturerId(id);
 		return ResponseEntity.ok(model);
 	}
 	
-	@GetMapping("/seg_id")
+	@GetMapping("/segments/{seg_id}")
 	public ResponseEntity<List<Model>> getModelBySegmentId(@PathVariable("seg_id") int id){
 		List<Model> model = service.findModelBySegmentId(id);
 		return ResponseEntity.ok(model);
