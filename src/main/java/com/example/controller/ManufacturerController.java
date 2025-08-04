@@ -8,6 +8,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+<<<<<<< HEAD
+=======
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+>>>>>>> Vehicle_Conf_Controller
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,6 +33,20 @@ public class ManufacturerController {
 		
 	}
 	
+<<<<<<< HEAD
+=======
+	@GetMapping("/all")
+    public List<Manufacturer> getAllManufacturers() {
+        return mfgservice.getAllManufacturers();
+    }
+
+    @PostMapping("/save")
+    public Manufacturer saveManufacturer(@RequestBody Manufacturer manufacturer) {
+        return mfgservice.saveManufacturer(manufacturer);
+    }
+    
+	
+>>>>>>> Vehicle_Conf_Controller
 //	@GetMapping("/segments/{seg_id}")
 //	public ResponseEntity<List<Manufacturer>> getBySegId(@PathVariable("seg_id") int id){
 //		List<Manufacturer> mfg = mfgservice.findManufacturersBySegmentId(id);

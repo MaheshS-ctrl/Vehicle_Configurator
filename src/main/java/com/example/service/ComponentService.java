@@ -22,4 +22,24 @@ public class ComponentService {
 		return repo.findComponentByModelId(id);
 	}
 	
+<<<<<<< HEAD
+=======
+	public List<Component> getAllComponents() {
+        return repo.findAll();
+    }
+
+    
+    public Component saveComponent(Component component) {
+        return repo.save(component);
+    }
+    
+    
+    public Component getComponentById(int id) {
+        return repo.findById(id)
+            .orElseThrow(() -> new RuntimeException("Component not found with id: " + id));
+    }
+	 
+	    
+	
+>>>>>>> Vehicle_Conf_Controller
 }

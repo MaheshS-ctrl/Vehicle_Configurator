@@ -7,6 +7,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+<<<<<<< HEAD
+=======
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+>>>>>>> Vehicle_Conf_Controller
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +24,11 @@ import com.example.service.ModelService;
 public class ModelController {
 	private final ModelService service;
 	
+<<<<<<< HEAD
 	@Autowired
+=======
+	
+>>>>>>> Vehicle_Conf_Controller
 	public ModelController(ModelService serv) {
 		service = serv;
 	}
@@ -35,4 +44,23 @@ public class ModelController {
 		List<Model> model = service.findModelBySegmentId(id);
 		return ResponseEntity.ok(model);
 	}
+<<<<<<< HEAD
+=======
+	
+	 @GetMapping("/all")
+	 public List<Model> getAllModels() {
+	        return service.getAllModels();
+	    }
+	 @PostMapping("/save")
+	    public Model saveModel(@RequestBody Model model) {
+	        return service.saveModel(model);
+	    }
+	 
+	
+	    
+	    
+
+	 
+	    
+>>>>>>> Vehicle_Conf_Controller
 }

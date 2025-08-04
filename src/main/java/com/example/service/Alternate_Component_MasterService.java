@@ -17,7 +17,27 @@ public class Alternate_Component_MasterService {
 		return repo.findAltCompByModelId(id);
 	}
 	
+<<<<<<< HEAD
 	public List<Alternate_Component_Master> findAltCompByComponentId(int id) {
 		return repo.findAltCompByComponentId(id);
 	}
+=======
+//	public List<Alternate_Component_Master> findAltCompByComponentId(int id) {
+//		return repo.findAltCompByComponentId(id);
+//	}
+	
+    public List<Alternate_Component_Master> getAllAlternateComponents() {
+        return repo.findAll();
+    }
+
+    public Alternate_Component_Master saveAlternateComponent(Alternate_Component_Master altComponent) {
+        return repo.save(altComponent);
+    }
+    
+    public Alternate_Component_Master getAlternateComponentById(int id) {
+        return repo.findById(id)
+            .orElseThrow(() -> new RuntimeException("Alternate Component not found with id: " + id));
+    }
+
+>>>>>>> Vehicle_Conf_Controller
 }

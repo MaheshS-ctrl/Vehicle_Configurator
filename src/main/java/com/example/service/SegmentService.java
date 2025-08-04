@@ -23,5 +23,12 @@ public class SegmentService{
 	public Optional<Segment> findById(Integer sg_id) {
 		return repo.findById(sg_id);
 	}
+<<<<<<< HEAD
 
+=======
+	
+	public Segment saveSegment(Segment segment) {
+        return repo.save(segment);
+    }
+>>>>>>> Vehicle_Conf_Controller
 }

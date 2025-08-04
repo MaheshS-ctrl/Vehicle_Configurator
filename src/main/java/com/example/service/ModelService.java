@@ -21,4 +21,17 @@ public class ModelService {
 		return repo.findModelBySegmentId(id);
 	}
 	
+<<<<<<< HEAD
+=======
+	
+    public List<Model> getAllModels() {
+        return repo.findAll();
+    }
+
+  
+    public Model saveModel(Model model) {
+        return repo.save(model);
+    }
+	
+>>>>>>> Vehicle_Conf_Controller
 }

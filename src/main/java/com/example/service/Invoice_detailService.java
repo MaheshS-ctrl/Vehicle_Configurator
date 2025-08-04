@@ -20,4 +20,20 @@
 		public List<Invoice_detail> findInvoice_detailsByCompId(int id) {
 			return repo.findInvoice_detailsByCompId(id);
 		}
+<<<<<<< HEAD
+=======
+		
+		public List<Invoice_detail> getAllInvoiceDetails() {
+	        return repo.findAll();
+	    }
+
+	    public Invoice_detail saveInvoiceDetail(Invoice_detail invoiceDetail) {
+	        return repo.save(invoiceDetail);
+	    }
+	    
+//	    public Invoice_detail getInvoiceDetailById(int id) {
+//	        return repo.findById(id)
+//	            .orElseThrow(() -> new RuntimeException("Invoice Detail not found with id: " + id));
+//	    }
+>>>>>>> Vehicle_Conf_Controller
 	}
