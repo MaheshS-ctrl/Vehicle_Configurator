@@ -1,20 +1,14 @@
-<<<<<<< HEAD
-{"properties": [{
-  "name": "spring.security.enabled",
-  "type": "java.lang.String",
-  "description": "A description for 'spring.security.enabled'"
-}]}
-=======
-{"properties": [
-  {
-    "name": "spring.security.enabled",
-    "type": "java.lang.String",
-    "description": "A description for 'spring.security.enabled'"
-  },
-  {
-    "name": "jwt.secret",
-    "type": "java.lang.String",
-    "description": "A description for 'jwt.secret'"
-  }
-]}
->>>>>>> Vehicle_Conf_Controller
+{
+  "properties": [
+    {
+      "name": "spring.security.enabled",
+      "type": "java.lang.String",
+      "description": "A description for 'spring.security.enabled'"
+    },
+    {
+      "name": "jwt.secret",
+      "type": "java.lang.String",
+      "description": "A description for 'jwt.secret'"
+    }
+  ]
+}
