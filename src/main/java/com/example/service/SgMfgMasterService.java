@@ -45,5 +45,21 @@ public class SgMfgMasterService {
 
 	        sgMfgMasterRepository.save(mapping);
 	    }
+<<<<<<< HEAD
+=======
+	    
+	    public List<SgMfgMaster> getAllSgMfgMasters() {
+	        return sgMfgMasterRepository.findAll();
+	    }
+
+	    public SgMfgMaster saveSgMfgMaster(SgMfgMaster sgMfgMaster) {
+	        return sgMfgMasterRepository.save(sgMfgMaster);
+	    }
+	    
+	    public SgMfgMaster getSgMfgMasterById(int id) {
+	        return sgMfgMasterRepository.findById(id)
+	            .orElseThrow(() -> new RuntimeException("SgMfgMaster not found with id: " + id));
+	    }
+>>>>>>> Vehicle_Conf_Controller
 	
 }

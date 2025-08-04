@@ -13,12 +13,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableJpaRepositories(basePackages = "com.example.repository")
 public class ProjectApplication {
 
-	public static void main(String[] args) {
-		String rawPass = "Ezio";
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		String hashedPassword = encoder.encode(rawPass);
-		System.out.println("Hashed Password: " + hashedPassword);
-		SpringApplication.run(ProjectApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        String rawPass = "Ezio";
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String hashedPassword = encoder.encode(rawPass);
+        System.out.println("Hashed Password: " + hashedPassword);
+        SpringApplication.run(ProjectApplication.class, args);
+    }
 }

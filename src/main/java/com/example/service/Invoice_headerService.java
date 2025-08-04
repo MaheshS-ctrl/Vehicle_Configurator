@@ -1,5 +1,9 @@
 package com.example.service;
 
+<<<<<<< HEAD
+=======
+import java.util.List;
+>>>>>>> Vehicle_Conf_Controller
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,4 +24,20 @@ public class Invoice_headerService {
 	public Optional<Invoice_header> findById(int id) {
 		return repo.findById(id);
 	}
+<<<<<<< HEAD
+=======
+	
+	public List<Invoice_header> getAllInvoiceHeaders() {
+        return repo.findAll();
+    }
+
+    public Invoice_header saveInvoiceHeader(Invoice_header invoiceHeader) {
+        return repo.save(invoiceHeader);
+    }
+    
+    public Invoice_header getInvoiceHeaderById(int id) {
+        return repo.findById(id)
+            .orElseThrow(() -> new RuntimeException("Invoice Header not found with id: " + id));
+    }
+>>>>>>> Vehicle_Conf_Controller
 }

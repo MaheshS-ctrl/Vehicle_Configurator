@@ -20,4 +20,20 @@ public class Vehicle_detailService {
 	public List<Vehicle_detail> findVehicle_detailByModelId(int id) {
 		return repo.findVehicle_detailByModelId(id);
 	}
+<<<<<<< HEAD
+=======
+	
+	public List<Vehicle_detail> getAllVehicleDetails() {
+        return repo.findAll();
+    }
+
+    public Vehicle_detail saveVehicleDetail(Vehicle_detail vehicleDetail) {
+        return repo.save(vehicleDetail);
+    }
+    
+    public Vehicle_detail getVehicleDetailById(int id) {
+        return repo.findById(id)
+            .orElseThrow(() -> new RuntimeException("VehicleDetail not found with id: " + id));
+    }
+>>>>>>> Vehicle_Conf_Controller
 }

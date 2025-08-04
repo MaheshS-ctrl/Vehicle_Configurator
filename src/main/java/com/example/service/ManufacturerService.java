@@ -22,4 +22,18 @@ public class ManufacturerService {
 		return repo.findManufacturersBySegmentId(id);
 	}
 	
+<<<<<<< HEAD
+=======
+	
+    public List<Manufacturer> getAllManufacturers() {
+        return repo.findAll();
+    }
+
+    
+    public Manufacturer saveManufacturer(Manufacturer manufacturer) {
+        return repo.save(manufacturer);
+    }
+    
+	
+>>>>>>> Vehicle_Conf_Controller
 }

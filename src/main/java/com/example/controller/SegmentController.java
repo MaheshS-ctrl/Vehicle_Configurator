@@ -8,6 +8,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+<<<<<<< HEAD
+=======
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+>>>>>>> Vehicle_Conf_Controller
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +25,11 @@ import com.example.service.SegmentService;
 public class SegmentController {
 	private final SegmentService service;
 	
+<<<<<<< HEAD
 	@Autowired
+=======
+	
+>>>>>>> Vehicle_Conf_Controller
 	public SegmentController(SegmentService serv) {
 		this.service = serv;
 	}
@@ -31,6 +40,15 @@ public class SegmentController {
 		return ResponseEntity.ok(segments);
 	}
 	
+<<<<<<< HEAD
+=======
+	@PostMapping("/save")
+    public Segment saveSegment(@RequestBody Segment segment) {
+        return service.saveSegment(segment);
+    }
+
+	
+>>>>>>> Vehicle_Conf_Controller
 	@GetMapping("/{seg_id}")
 	public ResponseEntity<Optional<Segment>> getSegmentById(@PathVariable("seg_id") int id){
 		Optional<Segment> segment = service.findById(id);
