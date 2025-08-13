@@ -37,8 +37,8 @@ const ModelView = () => {
 
   const location = useLocation();
   const quantity = location.state?.quantity || 1;
-  const segment = location.state?.selectedSegment;
-  const manufacturer = location.state?.selectedManufacturer;
+  const segment = location.state?.selectedSegmentName;
+  const manufacturer = location.state?.selectedManufacturerName;
 
   useEffect(() => {
     if (!modelId) return;
@@ -437,7 +437,16 @@ const ModelView = () => {
           invoiceId={invoiceId}
           setCurrentView={setCurrentView}
           user={user}
-          handleEmailInvoice={handleEmailInvoice}
+          segmentName={
+            location.state?.selectedSegmentName ||
+            modelDetails.segment?.segName ||
+            ""
+          }
+          manufacturerName={
+            location.state?.selectedManufacturerName ||
+            modelDetails.manufacturer?.mfgName ||
+            ""
+          }
         />
       )}
     </div>

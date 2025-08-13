@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Vehicle_Configurator.Application.Interfaces;
+using Vehicle_Configurator.Domain.DTOs;
 using Vehicle_Configurator.Domain.Entities;
 
 namespace Vehicle_Configurator.API.Controllers
@@ -55,5 +57,31 @@ namespace Vehicle_Configurator.API.Controllers
             }
             return Ok(details);
         }
+        [HttpPost]
+        public async Task<IActionResult> CreateInvoiceDetails([FromBody] List<InvoiceDetailDto> invoiceDetailDtos)
+        {
+            if (invoiceDetailDtos == null || invoiceDetailDtos.Count == 0)
+                return BadRequest("Invoice details are required.");
+
+            var result = await _invoiceDetailRepository.CreateInvoiceDetails(invoiceDetailDtos);
+
+            // result is IActionResult or ActionResult - you can check and return accordingly
+            if (result is OkResult)
+            {
+                return Ok("Invoice details saved successfully.");
+            }
+            else if (result is BadRequestResult)
+            {
+                return BadRequest("Invalid invoice details.");
+            }
+            else
+            {
+                return StatusCode(500, "An error occurred while saving invoice details.");
+            }
+        }
+
+
+
+
     }
 }

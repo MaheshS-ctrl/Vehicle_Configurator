@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Vehicle_Configurator.Domain.Entities
 {
@@ -12,49 +13,70 @@ namespace Vehicle_Configurator.Domain.Entities
         public long Id { get; set; }
 
         [Column("username")]
-        public string? Username { get; set; }
+        [JsonPropertyName("username")]
+        [Required]
+        public string Username { get; set; } = string.Empty;
 
         [Column("password")]
-        public string? Password { get; set; }
+        [JsonPropertyName("password")]
+        [Required]
+        public string Password { get; set; } = string.Empty;
 
         [Column("role")]
+        [JsonPropertyName("role")]
         public string? Role { get; set; }
 
-        // Removed 'Holding' as it does not exist in the database diagram.
+        [Column("holding")]
+        [JsonPropertyName("holding")]
+        public string? Holding { get; set; }
+
 
         [Column("st_no")]
+        [JsonPropertyName("stNo")]
         public int StNo { get; set; }
 
         [Column("tel")]
-        public decimal Tel { get; set; }
+        [JsonPropertyName("tel")]
+        public decimal? Tel { get; set; } // changed to string
 
         [Column("addr")]
+        [JsonPropertyName("addr")]
         public string? Addr { get; set; }
 
-        // Removed 'AuthName' as it does not exist in the database diagram.
-
         [Column("cell")]
-        public decimal Cell { get; set; }
+        [JsonPropertyName("cell")]
+        public decimal? Cell { get; set; } // changed to string
+
+        [Column("auth_name")]
+        [JsonPropertyName("authName")]
+        public string? AuthName { get; set; }
 
         [Column("city")]
+        [JsonPropertyName("city")]
         public string? City { get; set; }
 
         [Column("company_name")]
+        [JsonPropertyName("companyName")]
         public string? CompanyName { get; set; }
 
         [Column("desig")]
+        [JsonPropertyName("desig")]
         public string? Desig { get; set; }
 
         [Column("email")]
+        [JsonPropertyName("email")]
         public string? Email { get; set; }
 
         [Column("pin")]
+        [JsonPropertyName("pin")]
         public int Pin { get; set; }
 
         [Column("reg_no")]
-        public decimal RegNo { get; set; }
+        [JsonPropertyName("regNo")]
+        public decimal? RegNo { get; set; } // changed to string
 
         [Column("state")]
+        [JsonPropertyName("state")]
         public string? State { get; set; }
     }
 }

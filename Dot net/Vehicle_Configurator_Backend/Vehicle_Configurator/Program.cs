@@ -5,6 +5,9 @@ using Vehicle_Configurator.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Text.Json.Serialization;
+using DinkToPdf.Contracts;
+using DinkToPdf;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +19,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     )
 );
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    }); 
 builder.Services.AddSwaggerGen();
 
 
@@ -29,6 +36,7 @@ builder.Services.AddCors(options =>
                           policy.WithOrigins("http://localhost:8080")
                                 .AllowAnyHeader()
                                 .AllowAnyMethod();
+
                       });
 });
 
@@ -54,7 +62,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 // Register the JwtService for dependency injection
 builder.Services.AddScoped<JwtService>();
-
 builder.Services.AddScoped<ISegmentRepository, SegmentService>();
 builder.Services.AddScoped<IManufacturerRepository, ManufacturerService>();
 builder.Services.AddScoped<IModelRepository, ModelService>();
@@ -65,8 +72,8 @@ builder.Services.AddScoped<IAlternateComponentMasterRepository, AlternateCompone
 builder.Services.AddScoped<IInvoiceDetailRepository, InvoiceDetailService>();
 builder.Services.AddScoped<IInvoiceHeaderRepository, InvoiceHeaderService>();
 builder.Services.AddScoped<IUserRepository, UserService>();
-
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

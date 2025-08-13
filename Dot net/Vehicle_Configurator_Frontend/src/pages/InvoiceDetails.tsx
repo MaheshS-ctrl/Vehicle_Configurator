@@ -1,4 +1,6 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface InvoiceDetailsProps {
   modelDetails: {
@@ -9,6 +11,8 @@ interface InvoiceDetailsProps {
     manufacturer?: { mfgName: string };
     segment?: { segName: string };
   };
+  segmentName: string;
+  manufacturerName: string;
   selectedConfigurableOptions: Record<
     string,
     {
@@ -37,14 +41,11 @@ interface InvoiceDetailsProps {
     email?: string;
   };
   invoiceId?: number | null;
-  handleEmailInvoice: () => Promise<void>;
 }
 
 const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({
   modelDetails,
   selectedConfigurableOptions,
-  vehicleDetails,
-  allComponents,
   calculatedTotalPrice,
   quantity,
   taxAmount,
@@ -52,8 +53,67 @@ const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({
   setCurrentView,
   user,
   invoiceId,
-  handleEmailInvoice,
+  segmentName,
+  manufacturerName,
 }) => {
+  const navigate = useNavigate();
+  const [message, setMessage] = useState<string | null>(invoiceMessage);
+
+  // Prepare invoice details payload
+  const prepareInvoiceDetailsPayload = () => {
+    if (!invoiceId) return [];
+    return Object.values(selectedConfigurableOptions).map((opt) => ({
+      invId: invoiceId,
+      compId: Number(opt.compId),
+    }));
+  };
+
+  // Save invoice details
+  const handleConfirmInvoice = async () => {
+    const invoiceDetailsPayload = prepareInvoiceDetailsPayload();
+    if (invoiceDetailsPayload.length === 0) {
+      alert("No selected components to save.");
+      return;
+    }
+    try {
+      await axios.post(
+        "https://localhost:7027/api/invoicedetail",
+        invoiceDetailsPayload
+      );
+      alert("Invoice details saved successfully.");
+      navigate("/");
+    } catch (error) {
+      console.error("Failed to save invoice details:", error);
+      alert("Failed to save invoice details. Please try again.");
+    }
+  };
+
+  // Send invoice email
+  const handleEmailInvoice = async () => {
+    const token = sessionStorage.getItem("token");
+    if (!invoiceId) {
+      setMessage("Invoice ID is missing. Please confirm the invoice first.");
+      return;
+    }
+    try {
+      const response = await axios.post(
+        `https://localhost:7027/api/emailinvoice/send-email/${invoiceId}`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      setMessage(response.data || "Invoice emailed successfully.");
+    } catch (error: any) {
+      console.error("Error sending invoice email:", error);
+      setMessage(
+        error.response?.data ||
+          "Failed to send invoice email. Please try again."
+      );
+    }
+  };
+
   return (
     <div className="p-8 bg-gray-50 rounded-xl shadow-inner">
       <div className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">
@@ -93,11 +153,10 @@ const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({
                 <strong>Model:</strong> {modelDetails.modelName}
               </p>
               <p className="text-gray-700">
-                <strong>Manufacturer:</strong>{" "}
-                {modelDetails.manufacturer?.mfgName}
+                <strong>Manufacturer:</strong> {manufacturerName}
               </p>
               <p className="text-gray-700">
-                <strong>Segment:</strong> {modelDetails.segment?.segName}
+                <strong>Segment:</strong> {segmentName}
               </p>
               <p className="text-gray-700">
                 <strong>Base Price:</strong> $
@@ -248,6 +307,12 @@ const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({
           >
             Print
           </button>
+          <button
+            onClick={handleConfirmInvoice}
+            className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-6 rounded"
+          >
+            Confirm
+          </button>
         </div>
 
         {/* Email Invoice Button */}
@@ -266,8 +331,8 @@ const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({
         </div>
 
         {/* Optional Invoice Message */}
-        {invoiceMessage && (
-          <p className="mt-4 text-center text-indigo-700">{invoiceMessage}</p>
+        {message && (
+          <p className="mt-4 text-center text-indigo-700">{message}</p>
         )}
       </div>
     </div>

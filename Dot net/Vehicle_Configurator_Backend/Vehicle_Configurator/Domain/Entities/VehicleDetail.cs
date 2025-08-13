@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using Vehicle_Configurator.Domain.Enums;
 
 namespace Vehicle_Configurator.Domain.Entities
@@ -19,6 +20,7 @@ namespace Vehicle_Configurator.Domain.Entities
         public Component Component { get; set; }
 
         [Column("comp_type")]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public ComponentType CompType { get; set; }
 
         [Column("is_config")]

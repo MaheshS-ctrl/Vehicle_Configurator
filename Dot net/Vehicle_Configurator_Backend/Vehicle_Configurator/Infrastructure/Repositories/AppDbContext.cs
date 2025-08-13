@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Vehicle_Configurator.Domain.Entities;
+using Vehicle_Configurator.Domain.Enums;
 
 namespace Vehicle_Configurator.Infrastructure.Repositories
 {
@@ -37,12 +39,13 @@ namespace Vehicle_Configurator.Infrastructure.Repositories
 
             base.OnModelCreating(modelBuilder);
 
+            var converter = new EnumToStringConverter<ComponentType>();
             // Apply the custom value converter for the CompType enum
             // This tells Entity Framework to convert the ComponentType enum to a string
             // when reading from and writing to the database.
             modelBuilder.Entity<VehicleDetail>()
-                .Property(v => v.CompType)
-                .HasConversion(new ComponentTypeConverter());
+               .Property(v => v.CompType)
+               .HasConversion(converter);
 
         }
 

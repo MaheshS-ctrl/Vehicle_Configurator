@@ -408,6 +408,46 @@
         }
       }
     },
+    "/api/InvoiceDetail": {
+      "post": {
+        "tags": [
+          "InvoiceDetail"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/InvoiceDetailDto"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/InvoiceDetailDto"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/InvoiceDetailDto"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/InvoiceHeader/by-model/{modelId}": {
       "get": {
         "tags": [
@@ -1476,13 +1516,12 @@
       },
       "ComponentType": {
         "enum": [
-          0,
-          1,
-          2,
-          3
+          "Core",
+          "Standard",
+          "Exterior",
+          "Interior"
         ],
-        "type": "integer",
-        "format": "int32"
+        "type": "string"
       },
       "InvoiceDetail": {
         "type": "object",
@@ -1504,6 +1543,20 @@
           },
           "component": {
             "$ref": "#/components/schemas/Component"
+          }
+        },
+        "additionalProperties": false
+      },
+      "InvoiceDetailDto": {
+        "type": "object",
+        "properties": {
+          "invId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "compId": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -1530,6 +1583,13 @@
           "amt": {
             "type": "number",
             "format": "double"
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InvoiceDetail"
+            },
+            "nullable": true
           },
           "customerDetail": {
             "type": "string",
@@ -1692,6 +1752,10 @@
         "additionalProperties": false
       },
       "User": {
+        "required": [
+          "password",
+          "username"
+        ],
         "type": "object",
         "properties": {
           "id": {
@@ -1699,14 +1763,18 @@
             "format": "int64"
           },
           "username": {
-            "type": "string",
-            "nullable": true
+            "minLength": 1,
+            "type": "string"
           },
           "password": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "role": {
             "type": "string",
             "nullable": true
           },
-          "role": {
+          "holding": {
             "type": "string",
             "nullable": true
           },
@@ -1716,7 +1784,8 @@
           },
           "tel": {
             "type": "number",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "addr": {
             "type": "string",
@@ -1724,7 +1793,12 @@
           },
           "cell": {
             "type": "number",
-            "format": "double"
+            "format": "double",
+            "nullable": true
+          },
+          "authName": {
+            "type": "string",
+            "nullable": true
           },
           "city": {
             "type": "string",
@@ -1748,7 +1822,8 @@
           },
           "regNo": {
             "type": "number",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "state": {
             "type": "string",

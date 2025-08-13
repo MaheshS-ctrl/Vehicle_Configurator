@@ -162,6 +162,22 @@
   },
   {
     "ContainingType": "Vehicle_Configurator.API.Controllers.InvoiceDetailController",
+    "Method": "CreateInvoiceDetails",
+    "RelativePath": "api/InvoiceDetail",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "invoiceDetailDtos",
+        "Type": "System.Collections.Generic.List\u00601[[Vehicle_Configurator.Domain.DTOs.InvoiceDetailDto, Vehicle_Configurator, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Vehicle_Configurator.API.Controllers.InvoiceDetailController",
     "Method": "GetByComponentId",
     "RelativePath": "api/InvoiceDetail/by-component/{componentId}",
     "HttpMethod": "GET",

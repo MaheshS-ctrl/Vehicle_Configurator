@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Vehicle_Configurator.Application.Interfaces;
+using Vehicle_Configurator.Domain.DTOs;
 using Vehicle_Configurator.Domain.Entities;
 using Vehicle_Configurator.Infrastructure.Repositories;
 
@@ -35,5 +36,30 @@ namespace Vehicle_Configurator.Application.Services
 
             return result;
         }
+        public async Task<ActionResult> CreateInvoiceDetails(List<InvoiceDetailDto> invoiceDetails)
+        {
+            if (invoiceDetails == null || invoiceDetails.Count == 0)
+            {
+                return new BadRequestResult();
+            }
+
+            // Map DTOs to Entities
+            var entities = invoiceDetails.Select(dto => new InvoiceDetail
+            {
+                InvId = dto.InvId,
+                CompId = dto.CompId
+            }).ToList();
+
+            await _context.InvoiceDetail.AddRangeAsync(entities);
+            await _context.SaveChangesAsync();
+
+            return new OkResult();
+        }
+        
+
+
+
+
+
     }
 }

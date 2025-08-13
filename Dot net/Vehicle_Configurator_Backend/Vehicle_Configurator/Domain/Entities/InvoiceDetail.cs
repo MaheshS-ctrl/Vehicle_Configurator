@@ -12,10 +12,13 @@ namespace Vehicle_Configurator.Domain.Entities
         public int InvDtlId { get; set; }
 
         [Column("inv_id")]
+        [ForeignKey("Invoice")]
         public int InvId { get; set; }
+
         public InvoiceHeader Invoice { get; set; }
 
         [Column("comp_id")]
+        [ForeignKey("Component")]
         public int CompId { get; set; }
         public Component Component { get; set; }
     }

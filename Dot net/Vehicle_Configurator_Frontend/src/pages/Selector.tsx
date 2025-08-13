@@ -13,7 +13,8 @@ const Selector = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedSegment, setSelectedSegment] = useState("");
   const [selectedManufacturer, setSelectedManufacturer] = useState("");
-
+  const [selectedSegmentName, setSelectedSegmentName] = useState("");
+  const [selectedManufacturerName, setSelectedManufacturerName] = useState("");
   // Fetch segments from backend
   useEffect(() => {
     const token = sessionStorage.getItem("token");
@@ -34,6 +35,8 @@ const Selector = () => {
   //  On segment select, fetch related manufacturers
   const handleSegmentSelect = (segmentId: string) => {
     setSelectedSegment(segmentId);
+    const segment = segments.find((s) => s.segId === Number(segmentId));
+    setSelectedSegmentName(segment ? segment.segName : "");
     setManufacturers([]);
     setModels([]);
     const token = sessionStorage.getItem("token");
@@ -61,11 +64,13 @@ const Selector = () => {
       })
       .catch((err) => console.error("Failed to fetch manufacturers:", err));
   };
-
-  console.log(selectedSegment.segName);
   //  On manufacturer select, fetch models
   const handleManufacturerSelect = (manufacturerId: string) => {
     setSelectedManufacturer(manufacturerId);
+    const manufacturer = manufacturers.find(
+      (m) => m.mfgId === Number(manufacturerId)
+    );
+    setSelectedManufacturerName(manufacturer ? manufacturer.mfgName : "");
     setModels([]);
     const token = sessionStorage.getItem("token");
     axios
@@ -86,6 +91,7 @@ const Selector = () => {
   };
 
   console.log(segments);
+
   return (
     <div className="min-h-screen bg-gray-900 text-white p-8">
       <h1 className="text-4xl font-bold mb-8 text-center">Vehicle Selection</h1>
@@ -178,8 +184,8 @@ const Selector = () => {
           navigate(`/modelview/${selectedModel}`, {
             state: {
               quantity,
-              selectedSegment,
-              selectedManufacturer,
+              selectedSegmentName,
+              selectedManufacturerName,
             },
           })
         }

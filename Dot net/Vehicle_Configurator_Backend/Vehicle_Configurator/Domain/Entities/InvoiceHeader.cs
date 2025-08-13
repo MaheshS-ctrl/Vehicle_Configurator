@@ -27,6 +27,9 @@ public class InvoiceHeader
     [Column("amt")]
     public double Amt { get; set; }
 
+    public List<InvoiceDetail>? Details { get; set; } = new();
+
+
     [JsonPropertyName("customerDetail")]
     [Column("customer_detail")]
     public string CustomerDetail { get; set; }
