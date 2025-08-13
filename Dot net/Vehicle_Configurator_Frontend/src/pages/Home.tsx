@@ -49,7 +49,7 @@ export const Home = () => {
         <div className="relative z-10 text-center text-white px-4">
           <h1 className="text-5xl md:text-7xl font-bold mb-6">
             Configure Your
-            <span className="text-transparent bg-gradient-accent bg-clip-text">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500">
               {" "}
               Dream Vehicle
             </span>

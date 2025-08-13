@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "4tpg8l6T9Nw=",
+  "dgSpecHash": "Y+Ec8BmxxR4=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Secretor\\Desktop\\Vehicle_Configurator\\Vehicle_Configurator\\Vehicle_Configurator.csproj",
+  "projectFilePath": "C:\\Users\\Secretor\\Downloads\\Vehicle_Configurator\\Vehicle_Configurator\\Vehicle_Configurator\\Vehicle_Configurator.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Secretor\\.nuget\\packages\\baselinetypediscovery\\2.0.0\\baselinetypediscovery.2.0.0.nupkg.sha512",
     "C:\\Users\\Secretor\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",

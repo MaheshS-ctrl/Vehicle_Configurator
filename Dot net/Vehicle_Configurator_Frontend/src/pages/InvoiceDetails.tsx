@@ -40,6 +40,7 @@ interface InvoiceDetailsProps {
     username?: string;
     email?: string;
   };
+  email: string;
   invoiceId?: number | null;
 }
 
@@ -52,13 +53,15 @@ const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({
   invoiceMessage,
   setCurrentView,
   user,
+  email,
   invoiceId,
   segmentName,
   manufacturerName,
 }) => {
+  console.log(user);
   const navigate = useNavigate();
   const [message, setMessage] = useState<string | null>(invoiceMessage);
-
+  const [confirmed, setConfirmed] = useState(false);
   // Prepare invoice details payload
   const prepareInvoiceDetailsPayload = () => {
     if (!invoiceId) return [];
@@ -80,14 +83,13 @@ const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({
         "https://localhost:7027/api/invoicedetail",
         invoiceDetailsPayload
       );
+      setConfirmed(true); // 🔹 Lock UI after confirmation
       alert("Invoice details saved successfully.");
-      navigate("/");
     } catch (error) {
       console.error("Failed to save invoice details:", error);
       alert("Failed to save invoice details. Please try again.");
     }
   };
-
   // Send invoice email
   const handleEmailInvoice = async () => {
     const token = sessionStorage.getItem("token");
@@ -98,7 +100,15 @@ const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({
     try {
       const response = await axios.post(
         `https://localhost:7027/api/emailinvoice/send-email/${invoiceId}`,
-        {},
+        {
+          quantity: quantity, // your quantity
+          unitPrice: calculatedTotalPrice, // your unit price
+          tax: taxAmount,
+          segment: segmentName,
+          manufacturer: manufacturerName,
+          email: email,
+          model: modelDetails.modelName,
+        },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -129,7 +139,7 @@ const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({
                 <strong>Customer:</strong> {user?.username || "Online Customer"}
               </p>
               <p className="text-gray-600 mb-1">
-                <strong>Email:</strong> {user?.email || "Not Provided"}
+                <strong>Email:</strong> {email || "Not Provided"}
               </p>
             </div>
             <div className="text-right">
@@ -288,38 +298,60 @@ const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({
         </div>
 
         {/* Actions */}
+        {/* Actions */}
         <div className="flex justify-center gap-4 flex-wrap mb-4">
-          <button
-            onClick={() => setCurrentView("details")}
-            className="bg-gray-600 hover:bg-gray-700 text-white py-2 px-6 rounded"
-          >
-            Back
-          </button>
-          <button
-            onClick={() => setCurrentView("configure")}
-            className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded"
-          >
-            Modify
-          </button>
-          <button
-            onClick={() => window.print()}
-            className="bg-green-600 hover:bg-green-700 text-white py-2 px-6 rounded"
-          >
-            Print
-          </button>
-          <button
-            onClick={handleConfirmInvoice}
-            className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-6 rounded"
-          >
-            Confirm
-          </button>
+          {!confirmed ? (
+            <>
+              <button
+                onClick={() => setCurrentView("details")}
+                className="bg-gray-600 hover:bg-gray-700 text-white py-2 px-6 rounded"
+              >
+                Back
+              </button>
+              <button
+                onClick={() => setCurrentView("configure")}
+                className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded"
+              >
+                Modify
+              </button>
+              <button
+                onClick={() => window.print()}
+                className="bg-green-600 hover:bg-green-700 text-white py-2 px-6 rounded"
+              >
+                Print
+              </button>
+              <button
+                onClick={handleConfirmInvoice}
+                className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-6 rounded"
+              >
+                Confirm
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                onClick={() => window.print()}
+                className="bg-green-600 hover:bg-green-700 text-white py-2 px-6 rounded"
+              >
+                Print
+              </button>
+              <button
+                onClick={() => navigate("/")}
+                className="bg-purple-600 hover:bg-purple-700 text-white py-2 px-6 rounded"
+              >
+                Go Home
+              </button>
+            </>
+          )}
         </div>
 
         {/* Email Invoice Button */}
         <div className="flex justify-center">
           <button
             onClick={handleEmailInvoice}
-            disabled={!invoiceId}
+            disabled={
+              !invoiceId || !Object.values(selectedConfigurableOptions).length
+            }
             className={`py-3 px-10 rounded text-white font-semibold ${
               invoiceId
                 ? "bg-purple-600 hover:bg-purple-700"

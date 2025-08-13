@@ -9,14 +9,14 @@ import { Header } from "./components/layout/Header";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Selector from "./pages/Selector";
-import ModelView from "./pages/ModelView";
 import Contact from "./pages/Contact";
 import About from "./pages/About";
 import RegistrationForm from "./pages/RegistrationForm";
 import SignInForm from "./pages/SignInForm";
+import React, { Suspense } from "react";
 
 const queryClient = new QueryClient();
-
+const ModelView = React.lazy(() => import("./pages/ModelView"));
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -28,10 +28,10 @@ const App = () => (
             {/* Auth routes without header */}
             <Route path="/login" element={<SignInForm />} />
             <Route path="/register" element={<RegistrationForm />} />
-            
+
             {/* All other routes with single header */}
-            <Route 
-              path="*" 
+            <Route
+              path="*"
               element={
                 <div className="min-h-screen bg-background">
                   <Header />
@@ -40,40 +40,46 @@ const App = () => (
                       <Route path="/" element={<Index />} />
                       <Route path="/about" element={<About />} />
                       <Route path="/contact" element={<Contact />} />
-                      
+
                       {/* Protected Routes */}
-                      <Route 
-                        path="/selector" 
+                      <Route
+                        path="/selector"
                         element={
                           <ProtectedRoute>
                             <Selector />
                           </ProtectedRoute>
-                        } 
+                        }
                       />
-                      <Route 
-                        path="/modelview/:modelId" 
+                      <Route
+                        path="/modelview/:modelId"
                         element={
                           <ProtectedRoute>
-                            <ModelView />
+                            <Suspense fallback={<div>Loading model...</div>}>
+                              <ModelView />
+                            </Suspense>
                           </ProtectedRoute>
-                        } 
+                        }
                       />
-                      
-                      <Route 
-                        path="/unauthorized" 
+
+                      <Route
+                        path="/unauthorized"
                         element={
                           <div className="container mx-auto px-4 py-20 text-center">
-                            <h1 className="text-2xl font-bold text-destructive mb-4">Unauthorized Access</h1>
-                            <p className="text-muted-foreground">You don't have permission to access this page.</p>
+                            <h1 className="text-2xl font-bold text-destructive mb-4">
+                              Unauthorized Access
+                            </h1>
+                            <p className="text-muted-foreground">
+                              You don't have permission to access this page.
+                            </p>
                           </div>
-                        } 
+                        }
                       />
-                      
+
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                   </main>
                 </div>
-              } 
+              }
             />
           </Routes>
         </AuthProvider>

@@ -6,14 +6,15 @@ const authService = {
     const response = await api.post("/api/auth/login", credentials);
 
     if (response.data?.token) {
-      sessionStorage.setItem("accessToken", response.data.token);
+      sessionStorage.setItem("token", response.data.token);
     }
 
     return response.data;
   },
 
   logout: () => {
-    sessionStorage.removeItem("accessToken");
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("user");
   },
 };
 

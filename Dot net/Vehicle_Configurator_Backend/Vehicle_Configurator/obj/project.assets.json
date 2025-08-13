@@ -7604,11 +7604,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Secretor\\Desktop\\Vehicle_Configurator\\Vehicle_Configurator\\Vehicle_Configurator.csproj",
+      "projectUniqueName": "C:\\Users\\Secretor\\Downloads\\Vehicle_Configurator\\Vehicle_Configurator\\Vehicle_Configurator\\Vehicle_Configurator.csproj",
       "projectName": "Vehicle_Configurator",
-      "projectPath": "C:\\Users\\Secretor\\Desktop\\Vehicle_Configurator\\Vehicle_Configurator\\Vehicle_Configurator.csproj",
+      "projectPath": "C:\\Users\\Secretor\\Downloads\\Vehicle_Configurator\\Vehicle_Configurator\\Vehicle_Configurator\\Vehicle_Configurator.csproj",
       "packagesPath": "C:\\Users\\Secretor\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Secretor\\Desktop\\Vehicle_Configurator\\Vehicle_Configurator\\obj\\",
+      "outputPath": "C:\\Users\\Secretor\\Downloads\\Vehicle_Configurator\\Vehicle_Configurator\\Vehicle_Configurator\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -55,7 +55,86 @@ namespace Vehicle_Configurator.Application.Services
 
             return new OkResult();
         }
-        
+        public async Task<List<InvoiceDetailViewModel>> GetInvoiceDetailsWithPrices(int invoiceId)
+        {
+            var modelId = await _context.InvoiceHeader
+                .Where(i => i.InvId == invoiceId)
+                .Select(i => i.ModelId)
+                .FirstOrDefaultAsync();
+
+            Console.WriteLine($"ModelId for InvoiceId {invoiceId}: {modelId}");
+
+            var invoiceDetails = await _context.InvoiceDetail
+                .Where(d => d.InvId == invoiceId)
+                .ToListAsync();
+
+            Console.WriteLine($"InvoiceDetails count: {invoiceDetails.Count}");
+            foreach (var detail in invoiceDetails)
+            {
+                Console.WriteLine($"InvoiceDetail - InvDtlId: {detail.InvDtlId}, CompId: {detail.CompId}");
+            }
+
+            var components = await _context.Component.ToListAsync();
+            Console.WriteLine($"Components count: {components.Count}");
+            foreach (var comp in components)
+            {
+                Console.WriteLine($"Component - CompId: {comp.CompId}, CompName: {comp.CompName}");
+            }
+
+            var altComponents = await _context.AlternateComponentMaster
+                .Where(a => a.ModelId == modelId)
+                .ToListAsync();
+
+            Console.WriteLine($"AlternateComponents count: {altComponents.Count}");
+            foreach (var alt in altComponents)
+            {
+                Console.WriteLine($"AltComp - AltCompId: {alt.AltCompId}, CompId: {alt.CompId}, DeltaPrice: {alt.DeltaPrice}");
+            }
+
+            var result = new List<InvoiceDetailViewModel>();
+
+            foreach (var detail in invoiceDetails)
+            {
+                var baseComp = components.FirstOrDefault(c => c.CompId == detail.CompId);
+                if (baseComp != null)
+                {
+                    result.Add(new InvoiceDetailViewModel
+                    {
+                        ComponentName = baseComp.CompName,
+                        Price = 0.0
+                    });
+                    continue;
+                }
+
+                var altComp = altComponents.FirstOrDefault(a => a.AltCompId == detail.CompId);
+                if (altComp != null)
+                {
+                    var relatedBaseComp = components.FirstOrDefault(c => c.CompId == altComp.CompId);
+                    result.Add(new InvoiceDetailViewModel
+                    {
+                        ComponentName = relatedBaseComp != null
+                            ? $"{relatedBaseComp.CompName} (Alternate)"
+                            : "Unknown Component",
+                        Price = altComp.DeltaPrice
+                    });
+                    continue;
+                }
+
+                result.Add(new InvoiceDetailViewModel
+                {
+                    ComponentName = "Unknown Component",
+                    Price = 0.0
+                });
+            }
+
+            Console.WriteLine($"Result count: {result.Count}");
+            foreach (var r in result)
+            {
+                Console.WriteLine($"ComponentName: {r.ComponentName}, Price: {r.Price}");
+            }
+
+            return result;
+        }
 
 
 

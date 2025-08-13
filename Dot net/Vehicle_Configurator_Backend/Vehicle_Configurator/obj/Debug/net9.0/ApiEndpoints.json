@@ -161,6 +161,27 @@
     ]
   },
   {
+    "ContainingType": "Vehicle_Configurator.API.Controllers.EmailInvoiceController",
+    "Method": "SendInvoiceEmail",
+    "RelativePath": "api/EmailInvoice/send-email/{invoiceId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "invoiceId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "Vehicle_Configurator.Domain.Entities.InvoiceEmailRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Vehicle_Configurator.API.Controllers.InvoiceDetailController",
     "Method": "CreateInvoiceDetails",
     "RelativePath": "api/InvoiceDetail",
@@ -721,6 +742,16 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "Vehicle_Configurator.API.Controllers.TestController",
+    "Method": "Get",
+    "RelativePath": "api/test",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "Vehicle_Configurator.API.Controllers.UserController",

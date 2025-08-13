@@ -1,12 +1,6 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/AuthProvider.js";
 import { Navigate, useLocation } from "react-router-dom";
-
-interface FormData {
-  username: string;
-  password: string;
-}
-
 const SignInForm: React.FC = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");

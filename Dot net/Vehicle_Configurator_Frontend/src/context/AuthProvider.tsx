@@ -69,22 +69,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setUser(null);
 
       let errorMessage = "Login failed";
-      if (error.response?.data) {
-        if (typeof error.response.data === "string") {
-          try {
-            const parsed = JSON.parse(error.response.data);
-            errorMessage = parsed.error || errorMessage;
-          } catch {
-            errorMessage = error.response.data;
-          }
-        } else if (error.response.data.error) {
-          errorMessage = error.response.data.error;
-        }
-      } else if (error.response?.status === 401) {
-        errorMessage = "Invalid username or password";
-      } else if (error.message) {
-        errorMessage = error.message;
-      }
+      if (error.response?.data?.error) errorMessage = error.response.data.error;
+      else if (error.response?.data)
+        errorMessage =
+          typeof error.response.data === "string"
+            ? error.response.data
+            : JSON.stringify(error.response.data);
+      else if (error.message) errorMessage = error.message;
 
       return { success: false, error: errorMessage };
     } finally {

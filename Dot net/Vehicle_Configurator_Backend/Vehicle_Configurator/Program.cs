@@ -60,8 +60,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
+
+builder.Services.AddScoped<PdfService>();
+
 // Register the JwtService for dependency injection
 builder.Services.AddScoped<JwtService>();
+builder.Services.AddScoped<InvoiceGenerationService>();
 builder.Services.AddScoped<ISegmentRepository, SegmentService>();
 builder.Services.AddScoped<IManufacturerRepository, ManufacturerService>();
 builder.Services.AddScoped<IModelRepository, ModelService>();
@@ -72,6 +77,7 @@ builder.Services.AddScoped<IAlternateComponentMasterRepository, AlternateCompone
 builder.Services.AddScoped<IInvoiceDetailRepository, InvoiceDetailService>();
 builder.Services.AddScoped<IInvoiceHeaderRepository, InvoiceHeaderService>();
 builder.Services.AddScoped<IUserRepository, UserService>();
+builder.Services.AddScoped<EmailService>();
 var app = builder.Build();
 
 

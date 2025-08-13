@@ -3,6 +3,7 @@ import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 import InvoiceDetails from "./InvoiceDetails";
 import { useAuth } from "../context/AuthProvider";
+import { jwtDecode } from "jwt-decode";
 
 type SelectedConfigurableOption = {
   altId: string;
@@ -12,10 +13,19 @@ type SelectedConfigurableOption = {
   priceImpact: number;
 };
 
+interface JwtPayload {
+  email: string;
+}
+
+// const token = sessionStorage.getItem("token");
+
+// const decoded = jwtDecode<JwtPayload>(token);
+
 const ModelView = () => {
   const { user } = useAuth();
   const { modelId } = useParams<{ modelId: string }>();
   const [modelDetails, setModelDetails] = useState<any>(null);
+  const [decoded, setDecoded] = useState<JwtPayload | null>(null);
   const [vehicleDetails, setVehicleDetails] = useState<any[]>([]);
   const [allComponents, setAllComponents] = useState<Record<string, string>>(
     {}
@@ -41,14 +51,22 @@ const ModelView = () => {
   const manufacturer = location.state?.selectedManufacturerName;
 
   useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    if (token) {
+      try {
+        setDecoded(jwtDecode<JwtPayload>(token));
+      } catch (err) {
+        console.error("Invalid token:", err);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
     if (!modelId) return;
     setLoading(true);
     setError(null);
-    const token = sessionStorage.getItem("token");
     axios
-      .get(`https://localhost:7027/api/model/${modelId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      .get(`https://localhost:7027/api/model/${modelId}`)
       .then((res) => {
         setModelDetails(res.data);
         setLoading(false);
@@ -62,11 +80,8 @@ const ModelView = () => {
 
   useEffect(() => {
     if (!modelId) return;
-    const token = sessionStorage.getItem("token");
     axios
-      .get(`https://localhost:7027/api/vehicledetail/by-model/${modelId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      .get(`https://localhost:7027/api/vehicledetail/by-model/${modelId}`)
       .then((res) => {
         setVehicleDetails(res.data);
       })
@@ -77,11 +92,8 @@ const ModelView = () => {
   }, [modelId]);
 
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
     axios
-      .get("https://localhost:7027/api/component", {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      .get("https://localhost:7027/api/component")
       .then((res) => {
         const map: Record<string, string> = {};
         res.data.forEach(
@@ -98,13 +110,9 @@ const ModelView = () => {
 
   useEffect(() => {
     if (!modelId) return;
-    const token = sessionStorage.getItem("token");
     axios
       .get(
-        `https://localhost:7027/api/alternatecomponentmaster/by-model/${modelId}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+        `https://localhost:7027/api/alternatecomponentmaster/by-model/${modelId}`
       )
       .then((res) => {
         setAlternateComponents(res.data);
@@ -142,16 +150,11 @@ const ModelView = () => {
       invDate: new Date().toISOString(),
     };
     console.log(invoiceData);
-    const token = sessionStorage.getItem("token");
+
     try {
       const res = await axios.post(
         "https://localhost:7027/api/invoiceheader/save",
-        invoiceData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        invoiceData
       );
       console.log("Invoice save response:", res.data);
 
@@ -165,27 +168,6 @@ const ModelView = () => {
       setInvoiceMessage(
         `Failed to generate invoice: ${err.response?.data || err.message}`
       );
-    }
-  };
-
-  const handleEmailInvoice = async () => {
-    if (!invoiceId) {
-      alert("Please generate invoice first.");
-      return;
-    }
-    const token = sessionStorage.getItem("token");
-    try {
-      await axios.post(
-        "https://localhost:7027/api/invoice/send-email",
-        { inv_id: invoiceId },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      alert("Invoice emailed successfully!");
-    } catch (err) {
-      console.error("Failed to send invoice email:", err);
-      alert("Failed to send invoice email.");
     }
   };
 
@@ -410,6 +392,19 @@ const ModelView = () => {
                       </li>
                     );
                   })}
+                  {/* Reset Button */}
+                  <button
+                    onClick={() =>
+                      setSelectedConfigurableOptions((prev) => {
+                        const updated = { ...prev };
+                        delete updated[defaultComp.compId]; // Remove the selection
+                        return updated;
+                      })
+                    }
+                    className="mt-3 px-3 py-1 bg-gray-300 hover:bg-gray-400 rounded-md text-sm"
+                  >
+                    Reset Choice
+                  </button>
                 </div>
               );
             })}
@@ -437,6 +432,7 @@ const ModelView = () => {
           invoiceId={invoiceId}
           setCurrentView={setCurrentView}
           user={user}
+          email={decoded.email}
           segmentName={
             location.state?.selectedSegmentName ||
             modelDetails.segment?.segName ||
