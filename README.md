@@ -6,7 +6,7 @@ The **Vehicle Configurator** is a B2B 🏢 portal designed for rental 🚘 compa
 ## 🛠️ Tech Stack
 - **🖥️ Backend**: Spring Boot 3, Jakarta EE, Maven 3, JPA, MySQL 8, 🐳 Docker, 🔑 JWT Authentication, Microservices
 - **🎨 Frontend**: ⚛️ React JS 18
-- **Additional 🖥️ Backend (Microservices)**: .NET Core, Web API Core 8.0, SQL Server, Entity Core 8.0
+- **Additional 🖥️ Backend**: .NET Core, Web API Core 8.0, MySQL 8, Entity Core 8.0
 
 ## ⭐ Features
 - 🚙 Vehicle selection and ⚙️ configuration based on leasing conditions
